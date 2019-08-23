@@ -1,0 +1,2 @@
+   runScript.call(null)
+      runScript.sh({script=echo "[WARNING] No script was provided", encoding=UTF-8, label=Executing custom script, returnStatus=false, returnStdout=false})
