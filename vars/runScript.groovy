@@ -1,5 +1,6 @@
 import static com.andres.terraform.helpers.ScriptHelper.fillMissingProps
 import static com.andres.terraform.helpers.ScriptHelper.isWindowsNode
+import static com.andres.terraform.helpers.ScriptHelper.hideShellScript
 
 def call(Map props) {
 
@@ -17,7 +18,7 @@ def call(Map props) {
             )
         } else {
             result = sh(
-                    script: props.script,
+                    script: hideShellScript(props.script),
                     encoding: props.encoding,
                     label: props.label,
                     returnStatus: props.returnStatus,

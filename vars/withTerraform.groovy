@@ -4,6 +4,7 @@ import static com.andres.terraform.helpers.ConfigHelper.addMissingEnvVars
 import static com.andres.terraform.helpers.ConfigHelper.ENV_VARS_FILE_NAME
 
 def call(Map userVars, Closure body) {
+    terraformVersion()
     def envVars = getAllEnvVars(env)
     env = addMissingEnvVars(env, envVars)
     env = addMissingEnvVars(env, userVars)

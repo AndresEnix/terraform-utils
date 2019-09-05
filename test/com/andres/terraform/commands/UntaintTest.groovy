@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class UntaintTest {
 
@@ -13,7 +15,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint"
 
         when:
-        def actualCommand = getScript(Untaint.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint -state=my-stafe.ftstate"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['-state': 'my-stafe.ftstate'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['-state': 'my-stafe.ftstate'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint -lock-timeout=5s -lock=false -no-color"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint my_path"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint my_path"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['arguments': '-module="true" my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['arguments': '-module="true" my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class UntaintTest {
         def expectedCommand = "terraform untaint my_path"
 
         when:
-        def actualCommand = getScript(Untaint.command, ['arguments': ['-module="true', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Untaint.command, ['arguments': ['-module="true', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

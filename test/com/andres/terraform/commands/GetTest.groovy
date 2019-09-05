@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class GetTest {
 
@@ -13,7 +15,7 @@ class GetTest {
         def expectedCommand = "terraform get"
 
         when:
-        def actualCommand = getScript(Get.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class GetTest {
         def expectedCommand = "terraform get"
 
         when:
-        def actualCommand = getScript(Get.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class GetTest {
         def expectedCommand = "terraform get -update=true"
 
         when:
-        def actualCommand = getScript(Get.command, ['-update': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['-update': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class GetTest {
         def expectedCommand = "terraform get"
 
         when:
-        def actualCommand = getScript(Get.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class GetTest {
         def expectedCommand = "terraform get -update=true -no-color"
 
         when:
-        def actualCommand = getScript(Get.command, ['-update': 'true', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['-update': 'true', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class GetTest {
         def expectedCommand = "terraform get my_path"
 
         when:
-        def actualCommand = getScript(Get.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class GetTest {
         def expectedCommand = "terraform get my_path"
 
         when:
-        def actualCommand = getScript(Get.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class GetTest {
         def expectedCommand = "terraform get"
 
         when:
-        def actualCommand = getScript(Get.command, ['arguments': '-update my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['arguments': '-update my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class GetTest {
         def expectedCommand = "terraform get my_path"
 
         when:
-        def actualCommand = getScript(Get.command, ['arguments': ['-update', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Get.command, ['arguments': ['-update', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

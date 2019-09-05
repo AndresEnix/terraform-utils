@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class OutputTest {
 
@@ -13,7 +15,7 @@ class OutputTest {
         def expectedCommand = "terraform output"
 
         when:
-        def actualCommand = getScript(Output.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class OutputTest {
         def expectedCommand = "terraform output"
 
         when:
-        def actualCommand = getScript(Output.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class OutputTest {
         def expectedCommand = "terraform output -state=my-stafe.ftstate"
 
         when:
-        def actualCommand = getScript(Output.command, ['-state': 'my-stafe.ftstate'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['-state': 'my-stafe.ftstate'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class OutputTest {
         def expectedCommand = "terraform output"
 
         when:
-        def actualCommand = getScript(Output.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -58,10 +60,10 @@ class OutputTest {
     @Test
     void outputCommand_withMultipleSupportedOption() throws Exception {
         setup:
-        def expectedCommand = "terraform output -module=my-module -json -no-color"
+        def expectedCommand = "terraform output -no-color -module=my_module -json"
 
         when:
-        def actualCommand = getScript(Output.command, ['-module': 'my-module', '-json': null, '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['-module': 'my_module', '-json': null, '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class OutputTest {
         def expectedCommand = "terraform output my_path"
 
         when:
-        def actualCommand = getScript(Output.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class OutputTest {
         def expectedCommand = "terraform output my_path"
 
         when:
-        def actualCommand = getScript(Output.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class OutputTest {
         def expectedCommand = "terraform output"
 
         when:
-        def actualCommand = getScript(Output.command, ['arguments': '-state="true" my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['arguments': '-state="true" my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class OutputTest {
         def expectedCommand = "terraform output my_path"
 
         when:
-        def actualCommand = getScript(Output.command, ['arguments': ['-state="true', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Output.command, ['arguments': ['-state="true', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

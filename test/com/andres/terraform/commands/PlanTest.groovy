@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class PlanTest {
 
@@ -13,7 +15,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan"
 
         when:
-        def actualCommand = getScript(Plan.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan -state=my-stafe.ftstate"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-state': 'my-stafe.ftstate'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-state': 'my-stafe.ftstate'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan -lock-timeout=5s -lock=false -no-color"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -70,10 +72,10 @@ class PlanTest {
     @Test
     void planCommand_withSpecifiedOut() throws Exception {
         setup:
-        def expectedCommand = "terraform plan -input=false -out=my-custom-out.tfplan"
+        def expectedCommand = "terraform plan -input=false -out=my_custom_out.tfplan"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-out': 'my-custom-out.tfplan'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-out': 'my_custom_out.tfplan'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan my_path"
 
         when:
-        def actualCommand = getScript(Plan.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan my_path"
 
         when:
-        def actualCommand = getScript(Plan.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan -var 'my_var=test'"
 
         when:
-        def actualCommand = getScript(Plan.command, ['-var': "'my_var=test'"])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['-var': "'my_var=test'"])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -121,7 +123,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan"
 
         when:
-        def actualCommand = getScript(Plan.command, ['arguments': '-input="true" my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['arguments': '-input="true" my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -133,7 +135,7 @@ class PlanTest {
         def expectedCommand = "terraform plan -input=false -out=terraform.tfplan my_path"
 
         when:
-        def actualCommand = getScript(Plan.command, ['arguments': ['-input="true', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Plan.command, ['arguments': ['-input="true', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

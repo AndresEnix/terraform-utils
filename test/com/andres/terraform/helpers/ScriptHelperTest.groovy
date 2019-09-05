@@ -12,6 +12,7 @@ import static ScriptHelper.LINUX_NODE
 import static ScriptHelper.WINDOWS_NODE
 import static ScriptHelper.fillMissingProps
 import static ScriptHelper.isWindowsNode
+import static ScriptHelper.hideShellScript
 
 class ScriptHelperTest {
 
@@ -85,5 +86,19 @@ class ScriptHelperTest {
     @Test
     void isWindowsNode_returnsFalseWhenNodeIsNotWindows() throws Exception {
         Assert.assertFalse(isWindowsNode(LINUX_NODE))
+    }
+
+    @Test
+    void hideShellScript_isWrappingScript() throws Exception {
+        setup:
+        def script = "terraform -version"
+        def actualScript
+        def expectedScript = "set +x\n${script}\nset -x"
+
+        when:
+        actualScript = hideShellScript(script)
+
+        then:
+        Assert.assertEquals(expectedScript, actualScript)
     }
 }

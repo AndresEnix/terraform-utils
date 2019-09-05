@@ -23,17 +23,19 @@ To install the library you should follow the instructions within [this page](htt
 ### Command Methods
 This library currently supports the following methods:
 
-* terraformApply - wraps 'terraform apply' command and its options
-* terraformDestroy - wraps 'terraform destroy' command and its options
-* terraformForceUnlock - wraps 'terraform force-unlock' command and its options
-* terraformGet - wraps 'terraform get' command and its options
-* terraformImport - wraps 'terraform import' command and its options
-* terraformInit - wraps 'terraform init' command and its options
-* terraformOutput - wraps 'terraform output' command and its options
-* terraformPlan - wraps 'terraform plan' command and its options
-* terraformRefresh - wraps 'terraform refresh' command and its options
-* terraformTaint - wraps 'terraform taint' command and its options
-* terraformValidate - wraps 'terraform validate' command and its options
+* terraformApply - Wraps 'terraform apply' command and its options
+* terraformDestroy - Wraps 'terraform destroy' command and its options
+* terraformForceUnlock - Wraps 'terraform force-unlock' command and its options
+* terraformGet - Wraps 'terraform get' command and its options
+* terraformImport - Wraps 'terraform import' command and its options
+* terraformInit - Wraps 'terraform init' command and its options
+* terraformOutput - Wraps 'terraform output' command and its options
+* terraformPlan - Wraps 'terraform plan' command and its options
+* terraformRefresh - Wraps 'terraform refresh' command and its options
+* terraformShow - Wraps 'terraform show' command and its options
+* terraformTaint - Wraps 'terraform taint' command and its options
+* terraformValidate - Wraps 'terraform validate' command and its options
+* terraformVersion - This method is invoked by all other methods in this library, it creates the TERRAFORM_VERSION_FOR_UTILS environment variable (if it does not already exist) that contains the current terraform version.
 
 All the precedent commands must be executed within a 'node' closure as they use some Jenkins specific features.
 
@@ -98,6 +100,7 @@ Note: The argument will be ignored if you add supported options (e.g. '-no-color
 
 Hera are some of the main features this method:
 
+* Executes the terraformVersion method to create the TERRAFORM_VERSION_FOR_UTILS environment variable
 * Adds all existent environment variables to the terraform context.
 * Adds user defined variables to the terraform context.
 * Groups method so that they run within the same context.

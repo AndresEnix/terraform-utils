@@ -1,61 +1,74 @@
 package com.andres.terraform.helpers
 
-import com.andres.terraform.commands.Command
-
 class CommandHelper {
 
-    static getScript(command, options) {
-        if (options == null) {
-            options = [:]
+
+    static getScript(version, command, values) {
+        if (values == null) {
+            values = [:]
         }
-        String spaceString = ' '
-        StringBuilder builder = new StringBuilder(command.getCommand())
-        for (option in command.getMandatoryOptions()) {
-            builder.append(spaceString)
-            builder.append(option.label)
-            if (option.editable) {
-                builder.append(option.separator)
-                if (option.enabled && options.containsKey(option.label)) {
-                    builder.append(options.get(option.label).trim())
-                } else {
-                    builder.append(option.value)
-                }
-            }
-            options.remove(option.label)
-        }
-        options.each { key, val ->
-            def option = findOption(command, key)
-            if (option.enabled) {
-                builder.append(spaceString)
-                builder.append(key)
-                if (option.editable) {
-                    builder.append(option.separator)
-                    builder.append(val.trim())
-                }
-            }
-        }
-        if (command.getCustomizable() && options.arguments != null) {
-            if (CommandHelper.isCollectionOrArray(options.arguments)) {
-                options.arguments.each { argument ->
-                    if (!argumentContainsOptionLabel(command, argument)) {
-                        builder.append(spaceString)
-                        builder.append(argument.trim())
+        def script = new StringBuilder()
+        if (isInVersion(version, command.class.command)) {
+            script.append(command.class.command.label)
+            String key
+            def value
+            for (option in command.class.values()) {
+                if (option != command.class.command && isInVersion(version, option)) {
+                    key = option.label
+                    if (option.mandatory || values.containsKey(key)) {
+                        value = values.containsKey(key) ? values.get(key) : option.value
+                        key = option != command.class.arguments ? key : ''
+                        script.append(renderOption(command, option, key, value))
                     }
                 }
-            } else {
-                if (!argumentContainsOptionLabel(command, options.arguments)) {
-                    builder.append(spaceString)
-                    builder.append(options.arguments.trim())
+            }
+        }
+        return script.toString()
+    }
+
+    private static renderOption(command, option, key, value) {
+        String optionsSeparator = command.class.command.separator
+        String valueSeparator = option.separator
+        def optionString = new StringBuilder()
+        if (option.repeatable && isCollectionOrArray(value)) {
+            value.each {
+                String item ->
+                    if (!containsOptionLabel(command, item)) {
+                        optionString.append(optionsSeparator)
+                        optionString.append(key)
+                        if (!option.empty) {
+                            optionString.append(valueSeparator)
+                            optionString.append(item.trim())
+                        }
+                    }
+            }
+        } else {
+            if (!containsOptionLabel(command, value.toString())) {
+                optionString.append(optionsSeparator)
+                optionString.append(key)
+                if (!option.empty) {
+                    optionString.append(valueSeparator)
+                    optionString.append(value.toString().trim())
                 }
             }
         }
-        return builder.toString()
+        return optionString.toString()
     }
 
-    static def argumentContainsOptionLabel(command, argument) {
-        for (Command option in command.class.values()) {
-            if (option != command.class.command && option != command.class.empty_option) {
-                if (argument.contains(option.label)) {
+    private static isCollectionOrArray(object) {
+        [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
+    }
+
+    private static containsOptionLabel(command, value) {
+        for (option in command.class.values()) {
+            if (value != null) {
+                if (value.trim().equalsIgnoreCase(option.label)) {
+                    return true
+                }
+                if (value.contains(option.label + option.separator)) {
+                    return true
+                }
+                if (value.contains(option.label + command.separator)) {
                     return true
                 }
             }
@@ -63,16 +76,7 @@ class CommandHelper {
         return false
     }
 
-    static def findOption(command, val) {
-        for (Command option in command.class.values()) {
-            if (option.label == val) {
-                return option
-            }
-        }
-        return command.empty_option
-    }
-
-    static boolean isCollectionOrArray(object) {
-        [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
+    private static isInVersion(version, option) {
+        return version.between(option.from, option.to)
     }
 }

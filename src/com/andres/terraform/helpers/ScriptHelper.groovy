@@ -35,6 +35,11 @@ class ScriptHelper {
         if (props.returnStdout == null) {
             props.returnStdout = DEFAULT_RETURN_STD_OUTS
         }
+
         return props
+    }
+
+    def static hideShellScript(script) {
+        return "set +x\n${script}\nset -x"
     }
 }

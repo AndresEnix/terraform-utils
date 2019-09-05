@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class InitTest {
 
@@ -13,7 +15,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy"
 
         when:
-        def actualCommand = getScript(Init.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy"
 
         when:
-        def actualCommand = getScript(Init.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -34,10 +36,10 @@ class InitTest {
     @Test
     void initCommand_withSupportedOption() throws Exception {
         setup:
-        def expectedCommand = "terraform init -input=false -force-copy -from-module=my-module"
+        def expectedCommand = "terraform init -input=false -force-copy -backend-config=2 -backend-config=3 -backend-config=4 -from-module=my-module"
 
         when:
-        def actualCommand = getScript(Init.command, ['-from-module': 'my-module'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['-from-module': 'my-module','-backend-config':['2','3','4']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy"
 
         when:
-        def actualCommand = getScript(Init.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy -lock-timeout=5s -lock=false -no-color"
 
         when:
-        def actualCommand = getScript(Init.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy my_path"
 
         when:
-        def actualCommand = getScript(Init.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy my_path"
 
         when:
-        def actualCommand = getScript(Init.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy"
 
         when:
-        def actualCommand = getScript(Init.command, ['arguments': '-input="true" my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['arguments': '-input="true" my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class InitTest {
         def expectedCommand = "terraform init -input=false -force-copy my_path"
 
         when:
-        def actualCommand = getScript(Init.command, ['arguments': ['-input="true', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Init.command, ['arguments': ['-input="true', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

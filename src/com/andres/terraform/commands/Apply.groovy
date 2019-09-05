@@ -1,68 +1,46 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
+
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
+import static com.andres.terraform.utils.TerraformVersion.MAX_VERSION_SUPPORTED
+
 enum Apply implements Command {
-    command('apply', false, false, '', ''),
-    empty_option('', false, false, '', '='),
-    backup('-backup', true, true, null, '='),
-    auto_approve('-auto-approve', false, false, null, '='),
-    lock('-lock', true, true, true, '='),
-    lock_timeout('-lock-timeout', true, true, '0s', '='),
-    input('-input', false, true, false, '='),
-    no_color('-no-color', true, false, null, '='),
-    parallelism('-parallelism', true, true, 10, '='),
-    refresh('-refresh', true, true, true, '='),
-    state('-state', true, true, 'terraform.tfstate', '='),
-    target('-target', true, true, null, '='),
-    var('-var', true, true, null, ' '),
-    var_file('-var-file', true, true, null, '=');
+    command('terraform apply', true, false, '', ' ', false, true, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    input('-input', true, false, false, '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    auto_approve('-auto-approve', true, false, null, null, false, true, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    backup('-backup', false, true, null, '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    lock_timeout('-lock-timeout', false, true, '0s', '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    lock('-lock', false, true, true, '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    no_color('-no-color', false, false, null, null, false, true, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    parallelism('-parallelism', false, true, 10, '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    refresh('-refresh', false, true, true, '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    state('-state', false, true, 'terraform.tfstate', '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    state_out('-state-out', false, true, 'new_terraform.tfstate', '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    target('-target', false, true, null, '=', true, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    var('-var', false, true, null, ' ', true, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    var_file('-var-file', false, true, 'terraform.tfvars', '=', false, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED)),
+    arguments('arguments', false, true, null, '', true, false, new TerraformVersion(MIN_VERSION_SUPPORTED), new TerraformVersion(MAX_VERSION_SUPPORTED));
 
-    private final String label
-    private final Boolean enabled
-    private final Boolean editable
-    private final String value
-    private final String separator
+    private final def label
+    private final def mandatory
+    private final def editable
+    private final def value
+    private final def separator
+    private final def repeatable
+    private final def empty
+    private final def from
+    private final def to
 
-    Apply(label, enabled, editable, value, separator) {
+    Apply(label, mandatory, editable, value, separator, repeatable, empty, from, to) {
         this.label = label
-        this.enabled = enabled
+        this.mandatory = mandatory
         this.editable = editable
         this.value = value
         this.separator = separator
-    }
-
-    String getLabel() {
-        return label
-    }
-
-    Boolean getEnabled() {
-        return enabled
-    }
-
-    Boolean getEditable() {
-        return editable
-    }
-
-    String getValue() {
-        return value
-    }
-
-    String getSeparator() {
-        return separator
-    }
-
-    def getCommand() {
-        return BASE_SCRIPT + ' ' + command.label
-    }
-
-    def getCustomizable() {
-        return true
-    }
-
-    def getEmptyOption() {
-        return empty_option
-    }
-
-    def getMandatoryOptions() {
-        return [Apply.input, Apply.auto_approve]
+        this.repeatable = repeatable
+        this.empty = empty
+        this.from = from
+        this.to = to
     }
 }

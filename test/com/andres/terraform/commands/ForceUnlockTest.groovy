@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class ForceUnlockTest {
 
@@ -13,7 +15,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force lock_id my_path"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['arguments': 'lock_id my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['arguments': 'lock_id my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force lock_id my_path"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['arguments': ['lock_id', 'my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['arguments': ['lock_id', 'my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -74,7 +76,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['arguments': '-force my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['arguments': '-force my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -86,7 +88,7 @@ class ForceUnlockTest {
         def expectedCommand = "terraform force-unlock -force my_path"
 
         when:
-        def actualCommand = getScript(ForceUnlock.command, ['arguments': ['-force', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),ForceUnlock.command, ['arguments': ['-force', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

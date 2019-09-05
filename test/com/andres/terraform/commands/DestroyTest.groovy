@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class DestroyTest {
 
@@ -13,7 +15,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve"
 
         when:
-        def actualCommand = getScript(Destroy.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve -state=my-stafe.ftstate"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['-state': 'my-stafe.ftstate'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['-state': 'my-stafe.ftstate'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve -lock-timeout=5s -lock=false -no-color"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve my_path"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve my_path"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve -var 'my_var=test'"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['-var': "'my_var=test'"])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['-var': "'my_var=test'"])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -110,7 +112,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['arguments': '-state=false my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['arguments': '-state=false my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -122,7 +124,7 @@ class DestroyTest {
         def expectedCommand = "terraform destroy -auto-approve my_path"
 
         when:
-        def actualCommand = getScript(Destroy.command, ['arguments': ['-state="my_var=test"', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Destroy.command, ['arguments': ['-state="my_var=test"', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)

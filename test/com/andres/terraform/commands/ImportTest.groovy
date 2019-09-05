@@ -1,9 +1,11 @@
 package com.andres.terraform.commands
 
+import com.andres.terraform.utils.TerraformVersion
 import org.junit.Assert
 import org.junit.Test
 
 import static com.andres.terraform.helpers.CommandHelper.getScript
+import static com.andres.terraform.utils.TerraformVersion.MIN_VERSION_SUPPORTED
 
 class ImportTest {
 
@@ -13,7 +15,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false"
 
         when:
-        def actualCommand = getScript(Import.command, null)
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, null)
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -25,7 +27,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false"
 
         when:
-        def actualCommand = getScript(Import.command, ['-xxfg': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['-xxfg': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -37,7 +39,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false -state=my-stafe.ftstate"
 
         when:
-        def actualCommand = getScript(Import.command, ['-state': 'my-stafe.ftstate'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['-state': 'my-stafe.ftstate'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -49,7 +51,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false"
 
         when:
-        def actualCommand = getScript(Import.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['-abc': 'true', '-def': 'true', '-ghi': 'true'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -61,7 +63,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false -lock-timeout=5s -lock=false -no-color"
 
         when:
-        def actualCommand = getScript(Import.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['-lock-timeout': '5s', '-lock': 'false', '-no-color': null])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -73,7 +75,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false my_path"
 
         when:
-        def actualCommand = getScript(Import.command, ['arguments': 'my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['arguments': 'my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -85,7 +87,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false my_path"
 
         when:
-        def actualCommand = getScript(Import.command, ['arguments': ['my_path']])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['arguments': ['my_path']])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -97,7 +99,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false -var 'my_var=test'"
 
         when:
-        def actualCommand = getScript(Import.command, ['-var': "'my_var=test'"])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['-var': "'my_var=test'"])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -109,7 +111,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false"
 
         when:
-        def actualCommand = getScript(Import.command, ['arguments': '-input="true" my_path'])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['arguments': '-input="true" my_path'])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
@@ -121,7 +123,7 @@ class ImportTest {
         def expectedCommand = "terraform import -input=false my_path"
 
         when:
-        def actualCommand = getScript(Import.command, ['arguments': ['-input="true', "my_path"]])
+        def actualCommand = getScript(new TerraformVersion(MIN_VERSION_SUPPORTED),Import.command, ['arguments': ['-input="true', "my_path"]])
 
         then:
         Assert.assertEquals(expectedCommand, actualCommand)
